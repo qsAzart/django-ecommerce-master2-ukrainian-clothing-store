@@ -1,0 +1,8 @@
+{% load account %}{% user_display user as user_display %}{% load i18n %}{% autoescape off %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Привіт з {{ site_name }}!
+
+Ви отримали цей лист, тому що користувач {{ user_display }} надав вашу адресу електронної пошти для підключення свого облікового запису.
+
+Щоб підтвердити дію, перейдіть до {{ activate_url }}
+{% endblocktrans %}{% endautoescape %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Дякуємо вам з {{ site_name }}!
+{{ site_domain }}{% endblocktrans %}

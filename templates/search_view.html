@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+<title>{% block head_title %}Redleem - Пошук товарів{% endblock %}</title>
+
+{% block content %}
+
+  <main>
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark mdb-color lighten-3 mt-3 mb-5" id="nav">
+        <div class="dropdown" id="category-button">
+          <a class="dropdown-toggle navbar-brand" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Категорії
+          </a>
+          <div class="dropdown-menu category-menu" id="category-menu">
+            <div class="scrollable-menu">
+              <ul>
+                <li><a class="dropdown-item" href="{% url 'core:accessories_category' %}">Аксесуари</a></li>
+                <li><a class="dropdown-item" href="{% url 'core:baseball_caps_category' %}">Бейсболки</a></li>
+                <li><a class="dropdown-item" href="{% url 'core:jackets_category' %}">Куртки</a></li>
+                <li><a class="dropdown-item" href="{% url 'core:caps_category' %}">Кепки</a></li>
+                <li><a class="dropdown-item" href="{% url 'core:sneakers_category' %}">Кросівки</a></li>
+                <li><a class="dropdown-item" href="{% url 'core:pajamas_category' %}">Піжами</a></li>
+                <li><a class="dropdown-item" href="{% url 'core:sandals_category' %}">Сандалі</a></li>
+                <li><a class="dropdown-item" href="{% url 'core:shirts_category' %}">Сорочки</a></li>
+                <li><a class="dropdown-item" href="{% url 'core:tracksuits_category' %}">Спортивні костюми</a></li>
+                <li><a class="dropdown-item" href="{% url 'core:t-shirts_and_tops_category' %}">Футболки та топи</a></li>
+                <li><a class="dropdown-item" href="{% url 'core:hoodies_and_sweatshirts_category' %}">Худі та толстовки</a></li>
+                <li><a class="dropdown-item" href="{% url 'core:boots_category' %}">Чоботи</a></li>
+                <li><a class="dropdown-item" href="{% url 'core:pants_and_jeans_category' %}">Штани та джинси</a></li>
+                <li><a class="dropdown-item" href="{% url 'core:shorts_category' %}">Шорти</a></li>
+                <li><a class="dropdown-item" href="{% url 'core:socks_category' %}">Шкарпетки</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex">
+          <div class="collapse navbar-collapse" id="basicExampleNav">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="" style="margin-left: 20px;">Головна
+                  <span class="sr-only">(поточний)</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'core:about' %}" style="margin-left: 20px;">Про нас</a>
+              </li>
+            </ul>
+            </div>
+          </div>
+
+        <div class="ml-auto">
+        <div class="d-flex flex-row-reverse">
+          <div class="p-2">
+            <form class="form-inline" method="get" action="{% url 'core:search' %}">
+              <div class="md-form my-0">
+                <input class="form-control mr-sm-2" type="text" style="width: 220px;" placeholder="Пошук" aria-label="Search" name="query">
+              </div>
+            </form>
+          </div>
+          <div class="p-2">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+              aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+          </div>
+        </div>
+        </div>
+
+      </nav>
+
+<section class="text-center mb-4">
+    <div class="row wow fadeIn">
+        {% if products_data %}
+            {% for product_data in products_data %}
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <div class="view overlay">
+                            <img src="{{ product_data.image.url }}" class="card-img-top">
+                            <a href="{{ product_data.url }}">
+                                <div class="mask rgba-white-slight"></div>
+                            </a>
+                        </div>
+                        <h5><span class="badge purple mr-1 badge-pill">{{ product_data.category }}</span></h5>
+                        <strong><a href="{{ product_data.url }}" class="dark-grey-text">{{ product_data.title }}</a></strong>
+                        <div class="price-size">
+                            <strong>
+                                {% if product_data.discount_price %}
+                                    <div class="d-inline-flex">
+                                        <h5 class="mb-0 mr-2"><del class="font-weight-bold red-text">₴ {{ product_data.price }}</del></h5>
+                                        <h4 class="mb-0"><span class="font-weight-bold blue-text">₴ {{ product_data.discount_price }}</span></h4>
+                                    </div>
+                                {% else %}
+                                    {{ product_data.price }}
+                                {% endif %}
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+        <div class="col-md-12 text-center">
+            <p style="margin-bottom: -15px;"><h5>Помилка, введено некоректний запит.</h5></p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+      {% if is_paginated %}
+      <nav class="d-flex justify-content-center wow fadeIn">
+        <ul class="pagination pg-blue">
+          {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a class a="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Попередньо</span>
+            </a>
+          </li>
+          {% endif %}
+          <li class="page-item active">
+            <a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}
+              <span class="sr-only">(поточний)</span>
+            </a>
+          </li>
+          {% if page_obj.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Далі</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+      {% endif %}
+    </div>
+  </main>
+
+  <style>
+    .category-menu {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      z-index: 1;
+    }
+
+    .category-menu.show {
+      display: block;
+    }
+
+    .category-menu ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .category-menu ul li {
+      padding: 10px;
+    }
+
+    .category-menu ul li:hover {
+      background-color: #f0f0f0;
+    }
+
+    .scrollable-menu {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .card {
+    height: 100%;
+    }
+
+    #nav {
+      background-color: red !important;
+    }
+  </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const categoryButton = document.getElementById("category-button");
+      const categoryMenu = document.getElementById("category-menu");
+
+      categoryButton.addEventListener("mouseover", function () {
+        categoryMenu.classList.add("show");
+      });
+
+      categoryMenu.addEventListener("mouseout", function () {
+        categoryMenu.classList.remove("show");
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+  const categoryButton = document.getElementById("category-button");
+  const categoryMenu = document.getElementById("category-menu");
+
+  categoryButton.addEventListener("mouseover", function () {
+    categoryMenu.classList.add("show");
+  });
+
+  categoryMenu.addEventListener("mouseout", function () {
+    categoryMenu.classList.remove("show");
+  });
+
+  // Добавьте обработчик события для выбора категории
+  categoryMenu.addEventListener("click", function (event) {
+    if (event.target.tagName === "A") {
+      const selectedCategory = event.target.innerText; // Получите выбранную категорию
+      // Отправьте запрос к серверу для получения товаров по выбранной категории
+      // Обновите страницу с полученными товарами
+      // Отобразите товары на странице home.html
+    }
+  });
+});
+
+      document.addEventListener("DOMContentLoaded", function () {
+    const searchForm = document.querySelector("#search-form"); // Получите форму поиска
+    const resultsContainer = document.querySelector("#results-container"); // Элемент, где будут отображаться результаты
+
+    searchForm.addEventListener("submit", async (event) => {
+      event.preventDefault(); // Предотвращает отправку формы по умолчанию
+
+      const queryInput = searchForm.querySelector("#query"); // Получите поле ввода запроса
+      const query = queryInput.value; // Получите значение запроса
+
+      // Отправьте запрос на сервер для поиска
+      const response = await fetch(`/search/?query=${query}`);
+      const data = await response.json();
+
+      // Очистите результаты перед добавлением новых результатов
+      resultsContainer.innerHTML = "";
+
+      if (data.length === 0) {
+        resultsContainer.innerHTML = "<p>Ничего не найдено</p>";
+      } else {
+        data.forEach((item) => {
+          // Создайте элементы для отображения результатов (например, карточки продуктов)
+          const resultItem = document.createElement("div");
+          resultItem.classList.add("result-item");
+          resultItem.innerHTML = `
+            <div class="card">
+              <div class="view overlay">
+                <img src="${item.image}" class="card-img-top">
+                <a href="${item.url}">
+                  <div class="mask rgba-white-slight"></div>
+                </a>
+              </div>
+              <div class="card-body text-center">
+                <!-- Вставьте здесь код для отображения информации о продукте -->
+              </div>
+            </div>
+          `;
+
+          // Добавьте элемент с результатом к контейнеру
+          resultsContainer.appendChild(resultItem);
+        });
+      }
+    });
+  });
+  </script>
+
+{% endblock %}

@@ -1,0 +1,192 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>{% block head_title %}Інтернет-магазин Redleem{% endblock %}</title>
+  {% block extra_head %}
+  {% endblock %}
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
+  <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
+  <style type="text/css">
+    html,
+    body,
+    header,
+    .carousel {
+      height: 60vh;
+    }
+
+    @media (max-width: 740px) {
+
+      html,
+      body,
+      header,
+      .carousel {
+        height: 100vh;
+      }
+    }
+
+    @media (min-width: 800px) and (max-width: 850px) {
+
+      html,
+      body,
+      header,
+      .carousel {
+        height: 100vh;
+      }
+    }
+
+  </style>
+</head>
+
+{% include "navbar.html" %}
+
+<body>
+
+    <div class="mt-5 pt-4">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    </div>
+
+    {% block content %}
+    {% endblock content %}
+
+    {% block extra_body %}
+    {% endblock %}
+
+    {% block footer %}
+
+    <footer class="page-footer text-center font-small mt-4 wow fadeIn" id="footer">
+
+    <hr class="my-4">
+
+    <!-- Social icons -->
+    <div class="pb-4">
+      <a href="" target="_blank">
+        <i class="fab fa-facebook-f mr-3"></i>
+      </a>
+
+      <a href="" target="_blank">
+        <i class="fab fa-twitter mr-3"></i>
+      </a>
+
+      <a href="" target="_blank">
+        <i class="fab fa-youtube mr-3"></i>
+      </a>
+
+      <a href="" target="_blank">
+        <i class="fab fa-google-plus-g mr-3"></i>
+      </a>
+
+      <a href="" target="_blank">
+        <i class="fab fa-dribbble mr-3"></i>
+      </a>
+
+      <a href="" target="_blank">
+        <i class="fab fa-pinterest mr-3"></i>
+      </a>
+
+      <a href="" target="_blank">
+        <i class="fab fa-github mr-3"></i>
+      </a>
+
+      <a href="" target="_blank">
+        <i class="fab fa-codepen mr-3"></i>
+      </a>
+    </div>
+    <!-- Social icons -->
+
+    <!--Copyright-->
+    <div class="footer-copyright py-3">
+      © 2023 Copyright:
+      <a href="" target="_blank"> Redleem.com </a>
+    </div>
+    <!--/.Copyright-->
+
+    </footer>
+
+    {% endblock footer %}
+
+    {% block extra_scripts %}
+    {% endblock extra_scripts %}
+</body>
+</html>
+
+
+<style>
+    .category-menu {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      z-index: 1;
+    }
+
+    .category-menu.show {
+      display: block;
+    }
+
+    .category-menu ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .category-menu ul li {
+      padding: 10px;
+    }
+
+    .category-menu ul li:hover {
+      background-color: #f0f0f0;
+    }
+
+    .scrollable-menu {
+      max-height: 200px; /* Устанавливайте высоту, которая вам подходит */
+      overflow-y: auto;
+    }
+
+    #footer {
+      background-color: red !important;
+    }
+  </style>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const categoryButton = document.getElementById("category-button");
+      const categoryMenu = document.getElementById("category-menu");
+
+      categoryButton.addEventListener("mouseover", function () {
+        categoryMenu.classList.add("show");
+      });
+
+      categoryMenu.addEventListener("mouseout", function () {
+        categoryMenu.classList.remove("show");
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+  const categoryButton = document.getElementById("category-button");
+  const categoryMenu = document.getElementById("category-menu");
+
+  categoryButton.addEventListener("mouseover", function () {
+    categoryMenu.classList.add("show");
+  });
+
+  categoryMenu.addEventListener("mouseout", function () {
+    categoryMenu.classList.remove("show");
+  });
+
+  </script>

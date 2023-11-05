@@ -1,0 +1,15 @@
+{% extends "socialaccount/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Login Cancelled" %}{% endblock %}
+
+{% block content %}
+
+<h1>{% trans "Login Cancelled" %}</h1>
+
+{% url 'account_login' as login_url %}
+
+<p>{% blocktrans %}Ви вирішили скасувати вхід на наш сайт за допомогою одного з наявних облікових записів. Якщо це була помилка, перейдіть до <a href="{{login_url}}">sign in</a>.{% endblocktrans %}</p>
+
+{% endblock %}

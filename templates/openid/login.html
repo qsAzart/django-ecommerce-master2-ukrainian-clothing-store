@@ -1,0 +1,16 @@
+{% extends "openid/base.html" %}
+<title>{% block head_title %}Redleem - Вхід{% endblock %}</title>
+{% load i18n %}
+
+{% block content %}
+
+<h1>{% trans 'OpenID Sign In' %}</h1>
+
+
+<form id="openid_login_form" class="openid_login" method="post" action="{% url 'openid_login' %}">
+{% csrf_token %}
+{{form.as_p}}
+<button type="submit">Увійти</button>
+</form>
+
+{% endblock %}

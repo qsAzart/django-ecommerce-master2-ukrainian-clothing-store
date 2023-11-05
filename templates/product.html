@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+<title>{% block head_title %}Redleem - Перегляд товару{% endblock %}</title>
+
+{% block content %}
+
+  <main class="mt-5 pt-4">
+    <div class="container dark-grey-text mt-5">
+
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+
+          <img class="img-fluid" alt="{{ object.image }}" src="{{ object.image.url }}">
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+
+          <!--Content-->
+          <div class="p-4">
+
+            <div class="mb-3">
+                <h3>{{ object.title }}</h3>
+                <span class="badge purple mr-1; badge-pill" style="margin-bottom: 15px;">{{ object.get_category_display }}</span>
+            </div>
+
+            <p class="lead font-weight-bold" style="margin-bottom: 12px;">Опис</p>
+
+            <p style="margin-bottom: -10px;">{{ object.description }}</p>
+
+            <p class="lead">
+              {% if object.discount_price %}
+              <span class="mr-1">
+                <h4 style="display: inline-block; margin-right: 10px;"><del class="font-weight-bold red-text">₴ {{ object.price }}</del></h4>
+                <h2 style="display: inline-block; margin-top: 10px;" class="font-weight-bold blue-text">₴ {{ object.discount_price }}</h2>
+              </span>
+              {% else %}
+              <span>₴ {{ object.price }}</span>
+              {% endif %}
+            </p>
+
+            {% comment %} <form class="d-flex justify-content-left">
+              <!-- Default input -->
+              <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
+              <button class="btn btn-primary btn-md my-0 p" type="submit">
+                Додати в кошик
+                <i class="fas fa-shopping-cart ml-1"></i>
+              </button>
+
+            </form> {% endcomment %}
+            <br>
+            <a href="{{ object.get_add_to_cart_url }}" class="btn btn-primary btn-md my-0 p">
+              Додати до кошика
+              <i class="fas fa-shopping-cart ml-1"></i>
+            </a>
+            <a href="{{ object.get_remove_from_cart_url }}" class="btn btn-danger btn-md my-0 p">
+              Видалити з кошика
+            </a>
+
+          </div>
+          <!--Content-->
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+      <hr>
+
+      <!--Grid row-->
+      <div class="row d-flex justify-content-center wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-md-6 text-center">
+
+          <h4 class="my-4 h4">Додаткова інформація</h4>
+
+          <p>Наш магазин був відкритий зовсім нещодавно, проте ми вже маємо значні успіхи.
+            Ми будемо старатися й надалі радувати вас новинками, свіжим, модним та якісним одягом.</p>
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-12 mb-4">
+
+          <br>
+          <br>
+
+          <img src="https://farfiworldwide.com/cdn/shop/files/imgonline-com-ua-Compressed-FqAc64R0fu.jpg?v=1693381836&width=713" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-6 mb-4">
+
+          <img src="https://farfiworldwide.com/cdn/shop/products/imgonline-com-ua-Compressed-LnkX7IWGD0dirP2Z.jpg?v=1681979541&width=713" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-lg-4 col-md-6 mb-4">
+
+          <br>
+          <br>
+          <br>
+
+          <img src="https://images.prom.ua/4340662850_w640_h640_4340662850.jpg" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+
+    </div>
+  </main>
+
+{% endblock content %}

@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+<title>{% block head_title %}Redleem - Оформлення замовлення{% endblock %}</title>
+
+{% block content %}
+
+  <main>
+    <div class="container wow fadeIn">
+      <h2 class="my-5 h2 text-center">Форма оформлення замовлення</h2>
+      <div class="row">
+        <div class="col-md-12 mb-4">
+          <div class="card">
+            <form method="POST" class="card-body">
+              {% csrf_token %}
+
+<h3>Інформація про замовника</h3>
+
+<div class="my-5 center">
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <label for="user_first_name" style="color: light-gray; margin-left: 110px;">Ім'я</label>
+            <input type="text" placeholder="Введіть ваше ім'я" style="width: 350px; margin-left: 100px;" id="user_first_name" name="user_first_name" class="user_first_name form-control" maxlength="50" required pattern="[А-Яа-яA-Za-zЁёІіЇїЄєҐґ\s]*" oninput="this.value = this.value.replace(/[^А-Яа-яA-Za-zЁёІіЇїЄєҐґ\s]/g, '')" />
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <label for="user_last_name" style="color: light-gray; margin-left: 50px;">Прізвище</label>
+            <input type="text" placeholder='Введіть ваше прізвище' style="width: 350px; margin-left: 40px;" id="user_last_name" name="user_last_name" class="user_last_name form-control" maxlength="50" required pattern="[А-Яа-яA-Za-zЁёІіЇїЄєҐґ\s]*" oninput="this.value = this.value.replace(/[^А-Яа-яA-Za-zЁёІіЇїЄєҐґ\s]/g, '')" />
+        </div>
+    </div>
+
+    <div class="row">
+<div class="col-lg-6 mb-4">
+    <label for="phone_number" style="color: light-gray; margin-left: 110px;">Номер телефона</label>
+    <input type="text" placeholder="Введіть номер телефона" style="width: 350px; margin-left: 100px;" id="phone_number" name="phone_number" class="phone_number form-control" maxlength="16" required oninput="formatPhoneNumber(this);" />
+</div>
+
+        <div class="col-lg-6 mb-4">
+            <label for="email" style="color: light-gray; margin-left: 50px;">Електронна пошта</label>
+            <input type="email" placeholder='Введіть електронну пошту' style="width: 350px; margin-left: 40px;" id="email" name="email" class="email form-control" required />
+        </div>
+    </div>
+</div>
+
+<script>
+const phoneInput = document.getElementById('phone_number');
+
+// Устанавливаем "+38 " сразу при загрузке страницы
+phoneInput.value = '+38 ';
+
+phoneInput.addEventListener('input', function() {
+    let inputValue = phoneInput.value;
+
+    let cleanedValue = inputValue.replace(/[^0-9+ ]/g, '');
+
+    // Добавляем автоматические пробелы после первой и второй тройки цифр
+    let formattedValue = '+38 ' + cleanedValue.substring(4).replace(/ /g, '').replace(/(\d{3})(?=\d{3})/g, '$1 ');
+
+    if (formattedValue.length !== 16) {
+        phoneInput.setCustomValidity("Введіть номер мобільного телефону");
+    } else {
+        phoneInput.setCustomValidity("");
+    }
+
+    phoneInput.value = formattedValue;
+});
+</script>
+
+<hr>
+<h3>Адреса доставки</h3>
+
+<div class='hideable_shipping_form'>
+    <div class="md-form mb-5">
+        <input type='text' placeholder="Гриньв'ю 17A" id='shipping_address' name='shipping_address' class='form-control' style="margin-top: 50px; width: 450px;" required />
+        <label for="shipping_address" class="" style="margin-top: -40px; margin-left: 1px;">Адреса</label>
+    </div>
+    <div class="custom-control custom-checkbox">
+        <input type="checkbox" class="custom-control-input" name="set_default_shipping" id="set_default_shipping">
+        <label class="custom-control-label" for="set_default_shipping">Зберегти як адресу доставки за умовчанням</label>
+    </div>
+</div>
+
+
+              {% if default_shipping_address %}
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="use_default_shipping" id="use_default_shipping">
+                <label class="custom-control-label" for="use_default_shipping">Use default shipping address: {{ default_shipping_address.street_address|truncatechars:10 }}</label>
+              </div>
+              {% endif %}
+
+              <hr>
+
+              <h3>Варіант оплати</h3>
+
+              <div class="d-block my-3">
+                {% for value, name in form.fields.payment_option.choices %}
+                <div class="custom-control custom-radio">
+                  <input id="{{ name }}" name="payment_option" value="{{ value }}" type="radio" class="custom-control-input" required>
+                  <label class="custom-control-label" for="{{ name }}">{{ name }}</label>
+                </div>
+                {% endfor %}
+              </div>
+
+              <hr class="mb-4">
+              <button class="btn btn-primary btn-lg btn-block" type="submit">Перейти до оплати</button>
+
+            </form>
+
+          </div>
+
+        </div>
+
+        <div class="col-md-4 mb-4">
+          {% include "order_snippet.html" %}
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+{% endblock content %}
+
+{% block extra_scripts %}
+<script>
+
+var hideable_shipping_form = ₴ ('.hideable_shipping_form');
+var hideable_billing_form = ₴ ('.hideable_billing_form');
+
+var use_default_shipping = document.querySelector("input[name=use_default_shipping]");
+var use_default_billing = document.querySelector("input[name=use_default_billing]");
+
+use_default_shipping.addEventListener('change', function() {
+  if (this.checked) {
+    hideable_shipping_form.hide();
+  } else {
+    hideable_shipping_form.show();
+  }
+})
+
+use_default_billing.addEventListener('change', function() {
+  if (this.checked) {
+    hideable_billing_form.hide();
+  } else {
+    hideable_billing_form.show();
+  }
+})
+
+</script>
+{% endblock extra_scripts %}

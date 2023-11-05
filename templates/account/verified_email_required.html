@@ -1,0 +1,22 @@
+{% extends "account/base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Перевірте вашу адресу електронної пошти" %}{% endblock %}
+
+{% block content %}
+<h1>{% trans "Перевірте вашу адресу електронної пошти" %}</h1>
+
+{% url 'account_email' as email_url %}
+
+<p>{% blocktrans %}Підтвердіть свою особу для того, щоб скинути пароль. {% endblocktrans %}</p>
+
+<p>{% blocktrans %}Ми надіслали на вашу електронну пошту перевірку.
+    Будь ласка, натисніть на посилання в цьому електронному листі. Якщо під час процесу виникнуть додаткові
+    проблеми або запитання, зв'яжіться із нами за посиланням: {% endblocktrans %}</p>
+
+<p>{% blocktrans %}<strong>Note:</strong> you can still
+    <a href="{{ email_url }}">змінити адресу електронної пошти</a>.{% endblocktrans %}</p>
+
+
+{% endblock %}
